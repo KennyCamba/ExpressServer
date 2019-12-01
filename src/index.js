@@ -9,11 +9,13 @@ var SimpleCrypto = require("simple-crypto-js").default;
 
 var nodemailer = require('nodemailer');
 
+console.log(process.env.EMAIL_PASS)
+
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'bupro.espol@gmail.com',
-    pass: process.env.EMAIL_PASS
+    pass: "bupro-admin1"
   }
 });
 
