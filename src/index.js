@@ -5,11 +5,19 @@ var admin = require("firebase-admin");
 
 var bodyParser = require('body-parser');
 
-const sgMail = require('@sendgrid/mail');
-
 var SimpleCrypto = require("simple-crypto-js").default;
 
-var _secretKey = "kjsaoidasoiusfbmkkd89qwdy9qwyda2da"
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'bupro.espol@gmail.com',
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+var _secretKey = process.env.KEY_TOKEN
 var simpleCrypto = new SimpleCrypto(_secretKey);
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -130,20 +138,28 @@ app.post('/create_user', function(req, res){
 
 function sendEmail(name, email, user){
   var token = simpleCrypto.encrypt(user);
-  sgMail.setApiKey("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");
+  
   var html = 
   `<h1>Hola ${name}</h1> 
     <p><p>
     <p>Para activar su cuenta de BUPRO, por favor siga el siguente enlace: <a href="https://buproserver.herokuapp.com/activate?key=${token}">https://buproserver.herokuapp.com/activate?key=${token}</a></p>
   `
-  const msg = {
+  const mailOptions = {
     to: email,
-    from: 'kacamba@fiec.espol.edu.ec',
+    from: 'burpo.espol@gmail.com',
     subject: 'Activacion de cuenta',
     text: 'Email de activacion',
     html: html,
   };
-  sgMail.send(msg);
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
 }
 
 app.put('/usuario', function(req, res){
