@@ -122,13 +122,13 @@ app.post('/create_user', function(req, res){
         mensaje: 'Usuario creado',
         respuesta: usuario
        };
-       sendEmail(usuario.name, usuario.email)
+       sendEmail(usuario.name, usuario.email, usuario.user)
     }
     res.send(respuesta);
   });
 });
 
-function sendEmail(name, email){
+function sendEmail(name, email, user){
   var token = simpleCrypto.encrypt(user);
   sgMail.setApiKey("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");
   var html = 
