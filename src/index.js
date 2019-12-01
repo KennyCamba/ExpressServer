@@ -135,7 +135,7 @@ function sendEmail(name, email, user){
     service: 'gmail',
     auth: {
       user: 'bupro.espol@gmail.com',
-      pass: "bupro-admin1"
+      pass: process.env.EMAIL_PASS
     }
   });
   
@@ -247,6 +247,5 @@ app.use(function(req, res, next) {
  app.listen(port, () => {
   console.log("BUPRO server starting...");
   console.log("Listen in port " + port);
-  console.log(process.env.EMAIL_PASS)
 });
 
