@@ -130,15 +130,15 @@ app.post('/create_user', function(req, res){
 
 function sendEmail(name, email, user){
   var token = simpleCrypto.encrypt(user);
-  sgMail.setApiKey("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");
+  sgMail.setApiKey("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");
   var html = 
   `<h1>Hola ${name}</h1> 
     <p><p>
-    <p>Para activar su cuenta de BUPRO, por favor siga el siguente enlace: <a href="http://192.168.0.2:3000/activate?key=${token}">http://192.168.0.2:3000/activate?key=${token}</a></p>
+    <p>Para activar su cuenta de BUPRO, por favor siga el siguente enlace: <a href="https://buproserver.herokuapp.com/activate?key=${token}">https://buproserver.herokuapp.com/activate?key=${token}</a></p>
   `
   const msg = {
     to: email,
-    from: 'vrekennycamba@gmail.com',
+    from: 'kacamba@fiec.espol.edu.ec',
     subject: 'Activacion de cuenta',
     text: 'Email de activacion',
     html: html,
