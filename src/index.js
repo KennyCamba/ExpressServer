@@ -9,16 +9,6 @@ var SimpleCrypto = require("simple-crypto-js").default;
 
 var nodemailer = require('nodemailer');
 
-console.log(process.env.EMAIL_PASS)
-
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'bupro.espol@gmail.com',
-    pass: "bupro-admin1"
-  }
-});
-
 var _secretKey = process.env.KEY_TOKEN
 var simpleCrypto = new SimpleCrypto(_secretKey);
 
@@ -141,19 +131,25 @@ app.post('/create_user', function(req, res){
 function sendEmail(name, email, user){
   var token = simpleCrypto.encrypt(user);
   
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'bupro.espol@gmail.com',
+      pass: "bupro-admin1"
+    }
+  });
+  
   var html = 
   `<h1>Hola ${name}</h1> 
     <p><p>
     <p>Para activar su cuenta de BUPRO, por favor siga el siguente enlace: <a href="https://buproserver.herokuapp.com/activate?key=${token}">https://buproserver.herokuapp.com/activate?key=${token}</a></p>
   `
-  const mailOptions = {
-    to: email,
+  var mailOptions = {
     from: 'burpo.espol@gmail.com',
+    to: email,
     subject: 'Activacion de cuenta',
-    text: 'Email de activacion',
     html: html,
   };
-
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
@@ -251,5 +247,6 @@ app.use(function(req, res, next) {
  app.listen(port, () => {
   console.log("BUPRO server starting...");
   console.log("Listen in port " + port);
+  console.log(process.env.EMAIL_PASS)
 });
 
