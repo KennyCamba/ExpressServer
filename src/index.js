@@ -228,8 +228,10 @@ app.use(function(req, res, next) {
   res.status(404).send(respuesta);
  });
 
- app.listen(3000, '0.0.0.0', () => {
+ var port = process.env.PORT || 3000
+
+ app.listen(port, () => {
   console.log("BUPRO server starting...");
-  console.log("Listen in port 3000");
+  console.log("Listen in port " + port);
 });
 
