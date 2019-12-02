@@ -63,11 +63,13 @@ app.post('/login', function(req, res){
       usuario = snapshot.val();
       if(usuario.pass == req.body.pass){
         res.status(200);
+        var token = simpleCrypto.encrypt(user);
         respuesta = {
           error: false,
           codigo: 200,
           mensaje: 'respuesta del usuario',
-          respuesta: usuario
+          respuesta: usuario,
+          token: token
         };
       }else{
         res.status(200);
