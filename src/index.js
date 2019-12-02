@@ -130,20 +130,20 @@ app.post('/create_user', function(req, res){
 
 function sendEmail(name, email, user){
   var token = simpleCrypto.encrypt(user);
-  
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'bupro.espol@gmail.com',
-      pass: process.env.EMAIL_PASS
-    }
-  });
-  
   var html = 
   `<h1>Hola ${name}</h1> 
     <p><p>
     <p>Para activar su cuenta de BUPRO, por favor siga el siguente enlace: <a href="https://buproserver.herokuapp.com/activate?key=${token}">https://buproserver.herokuapp.com/activate?key=${token}</a></p>
   `
+  var pass = process.env.EMAIL_PASS
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'bupro.espol@gmail.com',
+      pass: pass
+    }
+  });
+
   var mailOptions = {
     from: 'burpo.espol@gmail.com',
     to: email,
